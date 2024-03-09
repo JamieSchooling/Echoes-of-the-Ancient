@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float _walkSpeed = 2f;
     [SerializeField] private float _gravityValue = -9.81f;
+    [SerializeField] private float _jumpForce = 5f;
     [Header("Camera")]
     [SerializeField] private Transform _camera;
     [SerializeField, Range(1f, 100f)] private float _sensitivity = 60f;
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 _playerVelocity;
     private Vector2 _moveInputVector = Vector2.zero;
+    private bool _isJumpPressed = false;
 
     private Vector2 _lookInputVector = Vector2.zero;
     private float _rotationX = 0f;
@@ -34,6 +36,8 @@ public class PlayerController : MonoBehaviour
         _characterController = GetComponent<CharacterController>();
         _inputReader.OnInputMove += (vector) => _moveInputVector = vector;
         _inputReader.OnInputLook += (vector) => _lookInputVector = vector;
+        _inputReader.OnJumpPressed += () => _isJumpPressed = true;
+        _inputReader.OnJumpReleased += () => _isJumpPressed = false;
     }
 
     private void OnEnable()
@@ -49,8 +53,8 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         Look();
-        Move();
         Gravity();
+        Move();
     }
 
     private void Look()
@@ -63,6 +67,13 @@ public class PlayerController : MonoBehaviour
         _camera.transform.rotation = Quaternion.Euler(_rotationX, _rotationY, 0f);
     }
 
+    private void Gravity()
+    {
+        _playerVelocity.y += (_gravityValue) * Time.deltaTime;
+
+        if (_isJumpPressed && _characterController.isGrounded) _playerVelocity.y = _jumpForce;
+    }
+
     private void Move()
     {
         if (_characterController.isGrounded && _playerVelocity.y < 0f)
@@ -71,19 +82,17 @@ public class PlayerController : MonoBehaviour
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
 
-        float currentVelocityX = _walkSpeed * _moveInputVector.x;
-        float currentVelocityZ = _walkSpeed * _moveInputVector.y;
+        _playerVelocity.x = _walkSpeed * _moveInputVector.x;
+        _playerVelocity.z = _walkSpeed * _moveInputVector.y;
 
-        Vector3 moveVector = new Vector3(currentVelocityX, 0f, currentVelocityZ);
+        Vector3 moveVector = new Vector3(_playerVelocity.x, 0f, _playerVelocity.z);
 
-        if (moveVector.magnitude > 0f) moveVector = (forward * currentVelocityZ) + (right * currentVelocityX);
+        if (moveVector.magnitude > 0f) moveVector = (forward * _playerVelocity.z) + (right * _playerVelocity.x);
+        _playerVelocity.x = moveVector.x;
+        _playerVelocity.z = moveVector.z;
 
-        _characterController.Move(Time.deltaTime * moveVector);
+        _characterController.Move(Time.deltaTime * _playerVelocity);
     }
 
-    private void Gravity()
-    {
-        _playerVelocity.y += (_gravityValue) * Time.deltaTime;
-        _characterController.Move(_playerVelocity * Time.deltaTime);
-    }
+    
 }

@@ -7,7 +7,8 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions
 {
     public event Action<Vector2> OnInputMove;
     public event Action<Vector2> OnInputLook;
-    public event Action OnInputJump;
+    public event Action OnJumpPressed;
+    public event Action OnJumpReleased;
 
     private GameInput _gameInput;
     
@@ -30,7 +31,8 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed) OnInputJump?.Invoke();
+        if (context.phase == InputActionPhase.Performed) OnJumpPressed?.Invoke();
+        if (context.phase == InputActionPhase.Canceled) OnJumpReleased?.Invoke();
     }
 
     public void EnableAll()

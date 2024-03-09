@@ -199,6 +199,7 @@ MonoBehaviour:
   _inputReader: {fileID: 11400000, guid: 18d6f423d349ecf42b5c6443a1f5cc7e, type: 2}
   _walkSpeed: 2
   _gravityValue: -9.81
+  _jumpForce: 5
   _camera: {fileID: 455583244}
   _sensitivity: 60
   _maxLookUpAngle: 75
