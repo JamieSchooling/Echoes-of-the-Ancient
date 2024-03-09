@@ -202,7 +202,7 @@ MonoBehaviour:
   _jumpForce: 5
   _camera: {fileID: 455583244}
   _sensitivity: 60
-  _maxLookUpAngle: 75
+  _maxLookUpAngle: 90
   _maxLookDownAngle: 85
 --- !u!1 &335380583
 GameObject:
