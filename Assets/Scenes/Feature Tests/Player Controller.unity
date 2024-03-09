@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 143259077}
   - component: {fileID: 143259078}
+  - component: {fileID: 143259079}
   m_Layer: 0
   m_Name: Player Prototype
   m_TagString: Untagged
@@ -183,6 +184,23 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &143259079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143259076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c9ba05af627eb24abefd66261e76f3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _inputReader: {fileID: 11400000, guid: 18d6f423d349ecf42b5c6443a1f5cc7e, type: 2}
+  _characterController: {fileID: 143259078}
+  _camera: {fileID: 455583244}
+  _walkSpeed: 2
+  _gravityValue: -9.81
 --- !u!1 &335380583
 GameObject:
   m_ObjectHideFlags: 0
