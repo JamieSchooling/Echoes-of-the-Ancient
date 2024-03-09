@@ -59,7 +59,8 @@ public class PlayerController : MonoBehaviour
         _rotationY += _lookInputVector.x * lookSpeed;
         _rotationX += -_lookInputVector.y * lookSpeed;
         _rotationX = Mathf.Clamp(_rotationX, -_maxLookUpAngle, _maxLookDownAngle);
-        _camera.transform.rotation = Quaternion.Euler(_rotationX, _rotationY, 0);
+        transform.rotation = Quaternion.Euler(0, _rotationY, 0);
+        _camera.transform.rotation = Quaternion.Euler(_rotationX, _rotationY, 0f);
     }
 
     private void Move()
@@ -75,11 +76,7 @@ public class PlayerController : MonoBehaviour
 
         Vector3 moveVector = new Vector3(currentVelocityX, 0, currentVelocityZ);
 
-        if (moveVector.magnitude > 0)
-        {
-            transform.eulerAngles = new Vector3(0, _camera.rotation.eulerAngles.y, 0);
-            moveVector = (forward * currentVelocityZ) + (right * currentVelocityX);
-        }
+        if (moveVector.magnitude > 0) moveVector = (forward * currentVelocityZ) + (right * currentVelocityX);
 
         _characterController.Move(Time.deltaTime * moveVector);
     }
