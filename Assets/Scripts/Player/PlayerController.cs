@@ -5,6 +5,9 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Input")]
     [SerializeField] private InputReader _inputReader;
+    [Header("Movement")]
+    [SerializeField] private float _walkSpeed = 2.0f;
+    [SerializeField] private float _gravityValue = -9.81f;
     [Header("Camera")]
     [SerializeField] private Transform _camera;
     [SerializeField, Range(1f, 100f)] private float _sensitivity = 60f;
@@ -12,6 +15,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _maxLookDownAngle = 85f;
 
     private CharacterController _characterController;
+
+    private Vector3 _playerVelocity;
+    private Vector2 _moveInputVector = Vector2.zero;
 
     private Vector2 _lookInputVector = Vector2.zero;
     private float _rotationX = 0;
@@ -26,6 +32,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _characterController = GetComponent<CharacterController>();
+        _inputReader.OnInputMove += (vector) => _moveInputVector = vector;
         _inputReader.OnInputLook += (vector) => _lookInputVector = vector;
     }
 
@@ -42,6 +49,8 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         Look();
+        Move();
+        Gravity();
     }
 
     private void Look()
@@ -51,5 +60,33 @@ public class PlayerController : MonoBehaviour
         _rotationX += -_lookInputVector.y * lookSpeed;
         _rotationX = Mathf.Clamp(_rotationX, -_maxLookUpAngle, _maxLookDownAngle);
         _camera.transform.rotation = Quaternion.Euler(_rotationX, _rotationY, 0);
+    }
+
+    private void Move()
+    {
+        if (_characterController.isGrounded && _playerVelocity.y < 0)
+            _playerVelocity.y = 0f;
+
+        Vector3 forward = transform.TransformDirection(Vector3.forward);
+        Vector3 right = transform.TransformDirection(Vector3.right);
+
+        float currentVelocityX = _walkSpeed * _moveInputVector.x;
+        float currentVelocityZ = _walkSpeed * _moveInputVector.y;
+
+        Vector3 moveVector = new Vector3(currentVelocityX, 0, currentVelocityZ);
+
+        if (moveVector.magnitude > 0)
+        {
+            transform.eulerAngles = new Vector3(0, _camera.rotation.eulerAngles.y, 0);
+            moveVector = (forward * currentVelocityZ) + (right * currentVelocityX);
+        }
+
+        _characterController.Move(Time.deltaTime * moveVector);
+    }
+
+    private void Gravity()
+    {
+        _playerVelocity.y += (_gravityValue) * Time.deltaTime;
+        _characterController.Move(_playerVelocity * Time.deltaTime);
     }
 }
