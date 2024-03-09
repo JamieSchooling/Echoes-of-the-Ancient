@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
     [Header("Input")]
     [SerializeField] private InputReader _inputReader;
     [Header("Movement")]
-    [SerializeField] private float _walkSpeed = 2.0f;
+    [SerializeField] private float _walkSpeed = 2f;
     [SerializeField] private float _gravityValue = -9.81f;
     [Header("Camera")]
     [SerializeField] private Transform _camera;
@@ -20,8 +20,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 _moveInputVector = Vector2.zero;
 
     private Vector2 _lookInputVector = Vector2.zero;
-    private float _rotationX = 0;
-    private float _rotationY = 0;
+    private float _rotationX = 0f;
+    private float _rotationY = 0f;
 
     public float CameraSensitivity
     {
@@ -59,13 +59,13 @@ public class PlayerController : MonoBehaviour
         _rotationY += _lookInputVector.x * lookSpeed;
         _rotationX += -_lookInputVector.y * lookSpeed;
         _rotationX = Mathf.Clamp(_rotationX, -_maxLookUpAngle, _maxLookDownAngle);
-        transform.rotation = Quaternion.Euler(0, _rotationY, 0);
+        transform.rotation = Quaternion.Euler(0f, _rotationY, 0f);
         _camera.transform.rotation = Quaternion.Euler(_rotationX, _rotationY, 0f);
     }
 
     private void Move()
     {
-        if (_characterController.isGrounded && _playerVelocity.y < 0)
+        if (_characterController.isGrounded && _playerVelocity.y < 0f)
             _playerVelocity.y = 0f;
 
         Vector3 forward = transform.TransformDirection(Vector3.forward);
@@ -74,9 +74,9 @@ public class PlayerController : MonoBehaviour
         float currentVelocityX = _walkSpeed * _moveInputVector.x;
         float currentVelocityZ = _walkSpeed * _moveInputVector.y;
 
-        Vector3 moveVector = new Vector3(currentVelocityX, 0, currentVelocityZ);
+        Vector3 moveVector = new Vector3(currentVelocityX, 0f, currentVelocityZ);
 
-        if (moveVector.magnitude > 0) moveVector = (forward * currentVelocityZ) + (right * currentVelocityX);
+        if (moveVector.magnitude > 0f) moveVector = (forward * currentVelocityZ) + (right * currentVelocityX);
 
         _characterController.Move(Time.deltaTime * moveVector);
     }
