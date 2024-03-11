@@ -244,8 +244,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 0.1
+  m_Color: {r: 0.40943396, g: 0.6060433, b: 1, a: 1}
+  m_Intensity: 0
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -341,26 +341,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1242895632237744954, guid: 9ba730ccac1261e4b8f2be438e430ee6,
-        type: 3}
-      propertyPath: m_ClearFlags
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1242895632237744954, guid: 9ba730ccac1261e4b8f2be438e430ee6,
-        type: 3}
-      propertyPath: m_BackGroundColor.b
-      value: 0.103773594
-      objectReference: {fileID: 0}
-    - target: {fileID: 1242895632237744954, guid: 9ba730ccac1261e4b8f2be438e430ee6,
-        type: 3}
-      propertyPath: m_BackGroundColor.g
-      value: 0.042488433
-      objectReference: {fileID: 0}
-    - target: {fileID: 1242895632237744954, guid: 9ba730ccac1261e4b8f2be438e430ee6,
-        type: 3}
-      propertyPath: m_BackGroundColor.r
-      value: 0.056020923
-      objectReference: {fileID: 0}
     - target: {fileID: 8591374568730053229, guid: 9ba730ccac1261e4b8f2be438e430ee6,
         type: 3}
       propertyPath: m_LocalPosition.x
