@@ -9,6 +9,7 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions
     public event Action<Vector2> OnInputLook;
     public event Action OnJumpPressed;
     public event Action OnJumpReleased;
+    public event Action OnTorchToggle;
 
     private GameInput _gameInput;
     
@@ -33,6 +34,11 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions
     {
         if (context.phase == InputActionPhase.Performed) OnJumpPressed?.Invoke();
         if (context.phase == InputActionPhase.Canceled) OnJumpReleased?.Invoke();
+    }
+
+    public void OnTorch(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed) OnTorchToggle?.Invoke();
     }
 
     public void EnableAll()
@@ -67,4 +73,5 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
+
 }
